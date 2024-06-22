@@ -1,0 +1,29 @@
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+const app = express();
+dotenv.config();
+
+const PORT = process.env.PORT;
+const DB_NAME = process.env.DB_NAME;
+const DB_USER = process.env.DB_USER;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+
+app.get('/', (req,res)=>{
+   res.send('hi')
+})
+async function start() {
+  try {
+    await mongoose.connect(
+      `mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.p7x4moj.mongodb.net/${DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`
+    );
+    app.listen(PORT, () => {
+      console.log(`Server listening to http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+start()
