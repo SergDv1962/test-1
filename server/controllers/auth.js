@@ -55,3 +55,19 @@ export const login = async (req, res) => {
     return res.json({ message: "This is error into login" });
   }
 };
+
+export const getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.json({ message: "Такого юзера в базі немає. Зареєструйтесь спочатку" });
+    }
+  
+    const token = jwt.sign({ id: user._id }, process.env.SECRET, { expiresIn: "30d" });
+
+    return res.json({ user, message: "Ви вдало увійшли у систему", token });
+  } catch (error) {
+    return res.json({ message: "Не має доступу. This is error into getMe" });
+  }
+};
