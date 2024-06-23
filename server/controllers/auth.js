@@ -23,8 +23,35 @@ export const register = async (req, res) => {
 
     await newUser.save();
 
-    return res.json({ newUser, message: "It`s all right", token });
+    return res.json({ newUser, message: "Ви вдало зареєструвались", token });
   } catch (error) {
-    return res.json({ message: "This is error" });
+    return res.json({ message: "This is error into registrate" });
+  }
+};
+
+export const login = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.json({ message: "Такого юзера в базі немає. Зареєструйтесь спочатку" });
+    }
+
+    if (username.length === 0 || password.length === 0) {
+      return res.json({ message: "Введить ім'я та пароль" });
+    }
+    
+    const isCorrectPassword = bcrypt.compare(password, user.password)
+
+    if(!isCorrectPassword) {
+       return res.json({ message: "Пароль не корректний" });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.SECRET, { expiresIn: "30d" });
+
+    return res.json({ user, message: "Ви вдало увійшли у систему", token });
+  } catch (error) {
+    return res.json({ message: "This is error into login" });
   }
 };
