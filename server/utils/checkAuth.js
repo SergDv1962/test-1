@@ -5,13 +5,14 @@ export const checkAuth = (req, res, next) => {
    
    if(token) {
       try {
-         const decoded = jwt.verify(token, process.env.JWT_SECRET)
+         const decoded = jwt.verify(token, process.env.SECRET)
          req.userId = decoded.id
+         
          next()
       } catch (error) {
-         return res.json({ message: 'Не має доступу'})
+         return res.json({ message: 'Не має доступу 1'})
       }
    } else {
-      return res.json({message: 'Не має доступу'})
+      return res.json({message: 'Не має доступу 2'})
    }
 }

@@ -35,7 +35,6 @@ export const loginUser = createAsyncThunk(
         username,
         password,
       });
-
       if (data.token) {
         window.localStorage.setItem("token", data.token);
       }
@@ -51,7 +50,6 @@ export const getMe = createAsyncThunk(
   async () => {
     try {
       const { data } = await axios.get("auth/me");
-
       return data
     } catch (error) {
       console.log(error)
@@ -106,9 +104,9 @@ export const authSlice = createSlice({
    })
    .addCase(getMe.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.status = action.payload.message;
-      state.user = action.payload.user;
-      state.token = action.payload.token
+      state.status = null;
+      state.user = action.payload?.user;
+      state.token = action.payload?.token
    })
    .addCase(getMe.rejected, (state, action) => {
       state.isLoading = false;

@@ -9,8 +9,17 @@ import { EditPost } from "./pages/EditPost";
 import { Layout } from "./components/Layout";
 import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getMe } from "./redux/features/authSlice.js";
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(getMe())
+  },[dispatch])
+
   return (
     <div className="px-4">
       <Layout>
