@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../redux/features/authSlice.js";
+import { checkIsAuth, loginUser } from "../redux/features/authSlice.js";
 import { toast } from "react-toastify";
 
 export const LoginPage = () => {
@@ -9,10 +9,16 @@ export const LoginPage = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const { status } = useSelector((state) => state.auth);
+  const isAuth = useSelector(checkIsAuth)
+  const navigate = useNavigate()
 
   useEffect(()=>{
     if(status) toast(status)
-  },[status])
+    
+    if(isAuth) {
+      navigate('/')
+    }
+  },[status, isAuth, navigate])
 
   const hahdleSubmit = () => {
     dispatch(loginUser({username, password}));
