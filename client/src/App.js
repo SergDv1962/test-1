@@ -7,6 +7,8 @@ import { LoginPage } from "./pages/LoginPage";
 import { AddPost } from "./pages/AddPost";
 import { EditPost } from "./pages/EditPost";
 import { Layout } from "./components/Layout";
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
           <Route path="new" element={<AddPost />} />
           <Route path=":id/edit" element={<EditPost />} />
         </Routes>
+        <ToastContainer position="bottom-right"/>
       </Layout>
     </div>
   );
