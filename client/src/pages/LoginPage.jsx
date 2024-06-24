@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../redux/features/authSlice.js";
+import { toast } from "react-toastify";
 
 export const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const { status } = useSelector((state) => state.auth);
+
+  useEffect(()=>{
+    if(status) toast(status)
+  },[status])
+
+  const hahdleSubmit = () => {
+    dispatch(loginUser({username, password}));
+  };
 
   return (
     <form
@@ -32,10 +45,13 @@ export const LoginPage = () => {
         />
       </label>
       <div className=" text-white">
-        <button className="bg-green-800 rounded-sm mr-2 px-3 py-1 hover:bg-green-500">
+        <button
+          onClick={hahdleSubmit}
+          className="bg-green-800 rounded-sm mr-2 px-3 py-1 hover:bg-green-500"
+        >
           Підтвердити
         </button>
-        <Link to='/registrate'>Не зареєстровані?</Link>
+        <Link to="/registrate">Не зареєстровані?</Link>
       </div>
     </form>
   );
